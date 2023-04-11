@@ -1,0 +1,135 @@
+{% load taggs %}
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/product/">
+
+
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .b-example-divider {
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/product.css" %}" rel="stylesheet">
+</head>
+<body>
+
+<header class="site-header sticky-top py-0">
+    {% include 'mail_app/includes/main_menu.html' %}
+</header>
+
+<main>
+    <div class="col-md-3 p-lg-5 mx-auto my-5" style="height: 200px;">
+        <h1 class="display-4 fw-normal">Skychimp</h1>
+        <p class="lead fw-normal">email рассылки для вашего бизнеса</p>
+    </div>
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3" style="height: 300px;">
+        <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden ">
+            <div class="my-3 py-3">
+                <h2 class="display-1">{{ mailing_total }}</h2>
+                <p class="lead">рассылок было создано</p>
+            </div>
+        </div>
+
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 p-3">
+                <h2 class="display-1">{{ mailing_active }}</h2>
+                <p class="lead">активных рассылок</p>
+            </div>
+        </div>
+        <div class="text-bg-secondary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-1">{{ clients }} </h2>
+                <p class="lead">клиентов рассылок</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        {% for item in blog %}
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <h3 class="mb-0">{{ item.header }}</h3>
+                            <div class="mb-1 text-muted">{{ item.published_on }} &nbsp; &nbsp; &nbsp; &nbsp;
+                                просмотры: {{ item.views }}</div>
+                            <br>
+                            <p class="card-text mb-auto">{{ item.body|truncatechars:300 }}</p>
+                            <a href="{% url 'blog:post_detail' item.pk %}"
+                               class="stretched-link link-info">продолжить</a>
+                        </div>
+                        <div class="col-auto d-none d-lg-block">
+                            <img src="{% mediapath item.picture %}" alt="" height="250">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <footer class="blog-footer text-center">
+        <p>Skychimp</p>
+    </footer>
+
+
+    <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
+
+
+</body>
+</html>

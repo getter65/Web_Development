@@ -1,0 +1,48 @@
+{% extends 'mail_app/base.html' %}
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">Проведенные рассылки</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Запланированное время рассылки</th>
+                <th scope="col">Периодичность</th>
+                <th scope="col">Статус рассылки</th>
+                <th scope="col">Сообщение</th>
+                <th scope="col">Получатели</th>
+                <th scope="col">Фактическое время попытки</th>
+                <th scope="col">Ответ почтового сервера</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider table-divider-primary">
+
+            {% for item in object_list %}
+                {% if item.status == 's' %}
+                    <tr>
+                    <th scope="row">{{ item.pk }}</th>
+                    <td>{{ item.mailing.time }}</td>
+                    <td>{{ item.mailing.get_frequency_display }}</td>
+                    <td>{{ item.mailing.get_status_display }}</td>
+                    <td>{{ item.mailing.message.topic }}</td>
+                    <td>
+                        {% for rec in item.mailing.recipient.all %}
+                            {{ rec.full_name }}
+                        {% endfor %}
+                    </td>
+                    <td>{{ item.time }}</td>
+                    <td>{{ item.answer }}</td>
+                    <td><a href="{% url 'mail_app:mailing_card' item.mailing.id %}" class="btn btn-secondary">Перейти к
+                        рассылке</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="container" style="text-align: center">
+
+            <a href="{% url 'mail_app:create_mailing' %}" class="btn btn-outline-secondary">Создать рассылку</a>
+
+        </div>
+    </div>
+{% endblock %}

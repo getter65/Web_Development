@@ -1,0 +1,43 @@
+{% extends 'mail_app/base.html' %}
+{% block content %}
+<div class="container">
+        <h1 class="text-center">Сообщения</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Тема</th>
+            <th scope="col">Текст</th>
+              {% if perms.mail_app.set_status %}
+                        <th scope="col">Пользователь</th>
+                    {% endif %}
+          </tr>
+        </thead>
+        <tbody class="table-group-divider table-divider-primary">
+
+          {% for item in object_list %}
+          <tr>
+            <th scope="row">{{ item.pk }}</th>
+            <td>{{ item.topic }}</td>
+            <td>{{ item.body }}</td>
+              {% if perms.mail_app.set_status %}
+                        <td>{{ item.user.full_name }}</td>
+                    {% endif %}
+              <td>
+                  {% if item.user == user %}
+                  <a href="{% url 'mail_app:update_message' item.pk %}" class="btn btn-secondary">Изменить</a>
+              <a href="{% url 'mail_app:delete_message' item.pk %}" class="btn btn-secondary">Удалить</a>
+                  {% endif %}
+              </td>
+
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+        <div class="container" style="text-align: center">
+
+                <a href="{% url 'mail_app:create_message' %}" class="btn btn-outline-secondary">Добавить сообщение</a>
+
+        </div>
+    </div>
+{% endblock %}

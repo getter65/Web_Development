@@ -1,0 +1,36 @@
+{% extends 'blog/base.html' %}
+{% load taggs %}
+{% block content %}
+    <main class="container">
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-600 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <div class="text-center">
+                            <h3 class="mb-0 text-center">{{ object.header }}</h3>
+                            <div class="col-auto d-none d-lg-block">
+                                <br>
+                                <img src="{% mediapath object.picture %}" alt="" height="350">
+                            </div>
+</div>
+                            <br>
+                            <p class="card-text mb-auto">{{ object.body }}</p>
+                        <br>
+                            <div class="mb-1 text-muted">{{ object.published_on }} &nbsp; &nbsp; &nbsp; &nbsp; просмотры: {{ object.views }}</div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row g-5">
+            <div class="container" style="text-align: center">
+                <br>
+                <br>
+                <a href="{% url 'blog:post_list' %}" class="stretched-link link-info">Все статьи</a>
+            </div>
+        </div>
+    </main>
+    <br>
+{% endblock %}

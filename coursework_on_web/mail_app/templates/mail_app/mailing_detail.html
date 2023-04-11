@@ -1,0 +1,33 @@
+{% extends 'mail_app/base.html' %}
+
+{% block content %}
+    {#    {% load tagss %}#}
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                {{ object.message.topic }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ object.time }}</h5>
+                <p class="card-text">Периодичность рассылки: {{ object.get_frequency_display }}</p>
+                <p class="card-text">Получатели:
+                    {% for obj in object.recipient.all %}
+                        {{ obj.full_name }}
+                    {% endfor %}
+
+                </p>
+                {% if object.owner == user %}
+                    <a href="{% url 'mail_app:update_mailing' object.pk %}"
+                       class="btn btn-outline-secondary">Изменить</a>
+                    <a href="{% url 'mail_app:delete_mailing' object.pk %}" class="btn btn-outline-danger">Удалить</a>
+                {% endif %}
+                <br><br>
+                <a href="{% url 'mail_app:mailing_list' %}" class="btn btn-secondary">Все рассылки</a>
+            </div>
+            <div class="card-footer text-muted">
+                Статус рассылки: {{ object.get_status_display }}
+
+            </div>
+        </div>
+    </div>>
+{% endblock %}

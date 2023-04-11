@@ -1,0 +1,44 @@
+{% extends 'mail_app/base.html' %}
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">Рассылки</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Время рассылки</th>
+                <th scope="col">Периодичность</th>
+                <th scope="col">Статус рассылки</th>
+                <th scope="col">Сообщение</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider table-divider-primary">
+
+            {% for item in object_list %}
+                <tr>
+                    <th scope="row">{{ item.pk }}</th>
+                    <td>{{ item.time }}</td>
+                    <td>{{ item.get_frequency_display }}</td>
+                    <td>{{ item.get_status_display }}
+                        {% if perms.mail_app.set_status %}
+                            {% if item.status == 's' %}
+                                <a href="{% url 'mail_app:stop_mailing' item.pk %}" class="btn btn-outline-danger">X</a>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td>{{ item.message.topic }}</td>
+                    <td><a href="{% url 'mail_app:mailing_card' item.pk %}" class="btn btn-secondary">Перейти к
+                        рассылке</a></td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="container" style="text-align: center">
+
+            <a href="{% url 'mail_app:create_mailing' %}" class="btn btn-outline-secondary">Создать рассылку</a>
+
+        </div>
+    </div>
+{% endblock %}

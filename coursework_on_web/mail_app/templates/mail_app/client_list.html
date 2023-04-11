@@ -1,0 +1,44 @@
+{% extends 'mail_app/base.html' %}
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">Клиенты</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">ФИО</th>
+                <th scope="col">Email</th>
+                <th scope="col">Комментарий</th>
+                {% if perms.mail_app.set_status %}
+                        <th scope="col">Пользователь</th>
+                    {% endif %}
+            </tr>
+            </thead>
+            <tbody class="table-group-divider table-divider-primary">
+
+            {% for item in object_list %}
+                <tr>
+                    <th scope="row">{{ item.pk }}</th>
+                    <td>{{ item.full_name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.comments }}</td>
+                    {% if perms.mail_app.set_status %}
+                        <td>{{ item.user.full_name }}</td>
+                    {% endif %}
+                    <td>{% if object.user == user %}
+                        <a href="{% url 'mail_app:update_client' item.pk %}" class="btn btn-secondary">Изменить</a>
+                        <a href="{% url 'mail_app:delete_client' item.pk %}" class="btn btn-secondary">Удалить</a>
+                    {% endif %}
+                    </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="container" style="text-align: center">
+
+            <a href="{% url 'mail_app:create_client' %}" class="btn btn-outline-secondary">Добавить клиента</a>
+
+        </div>
+    </div>
+{% endblock %}
